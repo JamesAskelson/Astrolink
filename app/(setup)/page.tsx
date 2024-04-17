@@ -1,3 +1,4 @@
+import InitialModal from "@/components/modals/initial-modal";
 import { ModeToggle } from "@/components/ui/theme-button";
 import { db } from "@/lib/db";
 import { initialProfile } from "@/lib/initial-profile";
@@ -25,6 +26,7 @@ const SetupPage = async () => {
         <div>
             Create a Server
             <ModeToggle />
+            <InitialModal />
         </div>
      );
 }
