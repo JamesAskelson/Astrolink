@@ -23,6 +23,8 @@ import {
     FormMessage,
 } from "@/components/ui/form"
 import { Button } from '@/components/ui/button';
+import FileUpload from '../ui/file-upload';
+import { useEffect, useState } from "react";
 
 
 const formSchema = z.object({
@@ -49,8 +51,18 @@ const InitialModal = () => {
         console.log(values)
     }
 
+    const [isMounted, setIsMounted] = useState(false);
+    
+    useEffect(() => {
+        setIsMounted(true);
+      }, []);
+
+      if (!isMounted) {
+        return null;
+      }
+
     return (
-            <Dialog>
+            <Dialog open={true}>
                 <DialogTrigger>fdfd</DialogTrigger>
                 <DialogContent className='text-gray-200 overflow-hidden'>
                     <DialogHeader className='pt-8 px-6'>
@@ -63,13 +75,31 @@ const InitialModal = () => {
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)}>
                                 <div>
-                                    <div className='text-center text-2xl text-zinc-500 pb-4'>TODO: ImageUrl</div>
+                                    {/* <div className='text-center text-2xl text-zinc-500 pb-4'>TODO: ImageUrl</div> */}
+                                    <div className='flex justify-center items-center text-center'>
+                                        <FormField
+                                        control={form.control}
+                                        name='imageUrl'
+                                        render={({field}) => (
+                                            <FormItem className='pb-4'>
+                                                <FormLabel className='text-xl pb-4 uppercase text-slate-700'>Server Image</FormLabel>
+                                                <FormControl>
+                                                    <FileUpload
+                                                    endpoint='serverImage'
+                                                    value={field.value}
+                                                    onChange={field.onChange}
+                                                    />
+                                                </FormControl>
+                                            </FormItem>
+                                        )} />
+                                    </div>
+
                                     <FormField
                                     control={form.control}
                                     name='name'
                                     render={({field}) => (
                                         <FormItem>
-                                            <FormLabel className='text-xl pb-4 uppercase text-slate-700'>Server Name</FormLabel>
+                                            <FormLabel className='text-xl pb-4 uppercase text-slate-700 '>Server Name</FormLabel>
                                             <FormControl>
                                                 <Input
                                                 disabled={isLoading}
@@ -78,15 +108,16 @@ const InitialModal = () => {
                                                 {...field}
                                                 ></Input>
                                             </FormControl>
+                                            <FormMessage />
                                         </FormItem>
                                     )} />
                                 </div>
-                            </form>
                             <div className='flex justify-center'>
                                 <DialogFooter className='py-4'>
                                     <Button className='w-52' variant='primary' disabled={isLoading}>Create</Button>
                                 </DialogFooter>
                             </div>
+                            </form>
                         </Form>
                     </DialogHeader>
                 </DialogContent>
