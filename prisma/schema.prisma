@@ -95,3 +95,4 @@ model Channel {
   @@index([serverId])
   @@index([profileId])
 }
+

@@ -24,8 +24,6 @@ const SetupPage = async () => {
 
     return (
         <div>
-            Create a Server
-            <ModeToggle />
             <InitialModal />
         </div>
      );
