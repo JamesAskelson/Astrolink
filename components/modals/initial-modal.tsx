@@ -1,6 +1,7 @@
 'use client';
 
 import * as z from 'zod';
+import axios from 'axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from "react-hook-form"
 import { Input } from "@/components/ui/input"
@@ -25,8 +26,10 @@ import {
 import { Button } from '@/components/ui/button';
 import FileUpload from '../ui/file-upload';
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/navigation';
 
-
+/************************************************/
+// error checking schema
 const formSchema = z.object({
         name: z.string().min(2, {
         message: "Server name must be more than 2 characters long",
@@ -36,7 +39,12 @@ const formSchema = z.object({
     }),
 })
 
+/*************************************************/
+
 const InitialModal = () => {
+
+    const router = useRouter()
+
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -48,18 +56,33 @@ const InitialModal = () => {
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
-        console.log(values)
+        try{
+            await fetch('/api/servers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values),
+            })
+            form.reset();
+            router.refresh()
+            window.location.reload()
+        } catch (error) {
+            console.log(error)
+        }
     }
 
     const [isMounted, setIsMounted] = useState(false);
-    
+
     useEffect(() => {
         setIsMounted(true);
-      }, []);
+    }, []);
 
-      if (!isMounted) {
+    if (!isMounted) {
         return null;
-      }
+    }
+
+
 
     return (
             <Dialog open={true}>
@@ -108,7 +131,7 @@ const InitialModal = () => {
                                                 {...field}
                                                 ></Input>
                                             </FormControl>
-                                            <FormMessage />
+                                            <FormMessage className=' text-red-500'/>
                                         </FormItem>
                                     )} />
                                 </div>
