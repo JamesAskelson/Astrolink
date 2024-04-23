@@ -1,6 +1,5 @@
 import { currentProfile } from "@/lib/current-profle";
 import { db } from "@/lib/db";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 import { NavigationAction } from "./navigation-action";
 import { MoonStar } from "lucide-react";
@@ -10,6 +9,7 @@ import { ScrollArea } from "../ui/scroll-area";
 import { NavigationItem } from "./navigation-item";
 import { UserButton } from "@clerk/nextjs";
 import { ModeToggle } from "../ui/theme-button";
+
 export const NavigationSideBar = async () => {
     const profile = await currentProfile()
 

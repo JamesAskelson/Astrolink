@@ -6,6 +6,8 @@ import { ThemeProvider } from '@/components/ui/theme'
 import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
+import { ModalProvider } from "@/components/providers/modal-provider";
+
 const inter = Roboto_Slab({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -31,6 +33,7 @@ export default function RootLayout({
               enableSystem={false}
               disableTransitionOnChange
               >
+              <ModalProvider />
                 {children}
               </ThemeProvider>
             </body>
