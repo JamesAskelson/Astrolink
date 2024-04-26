@@ -33,7 +33,7 @@ model Server {
   id String @id @default(uuid())
   name String
   imageUrl String @db.Text
-  inviteCode String @db.Text
+  inviteCode String @unique
 
 
 
@@ -95,4 +95,3 @@ model Channel {
   @@index([serverId])
   @@index([profileId])
 }
-

@@ -8,6 +8,7 @@ import { DropdownMenu,
     DropdownMenuSeparator,
     DropdownMenuTrigger, } from "../ui/dropdown-menu";
 import { ChevronDown, UserPlus, Wrench, ListPlus, Trash2, DoorOpen } from "lucide-react";
+import { useModal } from "@/app/hooks/user-modal-store";
 
 
 interface ServerHeaderProps {
@@ -16,6 +17,7 @@ interface ServerHeaderProps {
 }
 
 const ServerChannelHeader = ({server, role}: ServerHeaderProps) => {
+    const { onOpen } = useModal()
 
     const isAdmin = role === MemberRole.ADMIN
     const isModerator = role === MemberRole.MODERATOR
@@ -31,7 +33,7 @@ const ServerChannelHeader = ({server, role}: ServerHeaderProps) => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]'>
                     {isModerator || isAdmin &&
-                    (<DropdownMenuItem className='text-indigo-300 focus:text-indigo-600 cursor-pointer'>
+                    (<DropdownMenuItem onClick={() => onOpen('invite', { server })}className='text-indigo-300 focus:text-indigo-600 cursor-pointer'>
                         Invite People
                     <UserPlus className='h-5 w-5 ml-auto' />
                     </DropdownMenuItem>)
