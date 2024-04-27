@@ -39,7 +39,7 @@ const ServerChannelHeader = ({server, role}: ServerHeaderProps) => {
                     </DropdownMenuItem>)
                     }
                     {isAdmin &&
-                    (<DropdownMenuItem className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
+                    (<DropdownMenuItem onClick={() => onOpen('serverSettings', { server })}className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
                         Server Settings
                         <Wrench className='h-5 w-5 ml-auto' />
                     </DropdownMenuItem>)
