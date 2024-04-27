@@ -11,7 +11,6 @@ interface ServerChannelSidebarProps {
 
 const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => {
     const profile = await currentProfile()
-
     if(!profile){
         return redirectToSignIn()
     }
@@ -41,7 +40,7 @@ const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => 
     const textChannels = server?.channels.filter((channel) => channel.type === ChannelType.TEXT)
     const voiceChannels = server?.channels.filter((channel) => channel.type === ChannelType.AUDIO)
     const videoChannels = server?.channels.filter((channel) => channel.type === ChannelType.VIDEO)
-    
+
     const role = server.members.find((member) => member.profileId === profile.id)?.role
 
     return (

@@ -10,7 +10,7 @@ interface InviteCodePageProps {
 }
 
 
-export const InviteCodePage = async ({params}: InviteCodePageProps) => {
+const InviteCodePage = async ({params}: InviteCodePageProps) => {
     const profile = await currentProfile()
 
     if(!profile){
@@ -57,3 +57,5 @@ export const InviteCodePage = async ({params}: InviteCodePageProps) => {
 
     return null;
 }
+
+export default InviteCodePage;

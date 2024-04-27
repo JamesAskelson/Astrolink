@@ -1,12 +1,12 @@
 'use client';
 
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from "react-hook-form"
 import { Input } from "@/components/ui/input"
 import { Button } from '@/components/ui/button';
-import FileUpload from '../ui/file-upload';
-import { useRouter } from 'next/navigation';
+import { useModal } from '@/app/hooks/user-modal-store';
+import { Label } from '../ui/label';
+import { Check, Copy, RefreshCw } from 'lucide-react';
+import { useOrigin } from '@/app/hooks/use-origin';
+import { useState } from 'react';
 import {
     Dialog,
     DialogContent,
@@ -16,12 +16,6 @@ import {
     DialogTrigger,
     DialogFooter
 } from "@/components/ui/dialog"
-
-import { useModal } from '@/app/hooks/user-modal-store';
-import { Label } from '../ui/label';
-import { Check, Copy, RefreshCw } from 'lucide-react';
-import { useOrigin } from '@/app/hooks/use-origin';
-import { useState } from 'react';
 
 export const ServerInviteModal = () => {
     const { type, isOpen, onClose, onOpen, data } = useModal();
