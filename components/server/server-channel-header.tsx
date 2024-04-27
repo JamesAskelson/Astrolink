@@ -7,9 +7,8 @@ import { DropdownMenu,
     DropdownMenuLabel,
     DropdownMenuSeparator,
     DropdownMenuTrigger, } from "../ui/dropdown-menu";
-import { ChevronDown, UserPlus, Wrench, ListPlus, Trash2, DoorOpen } from "lucide-react";
+import { ChevronDown, UserPlus, Wrench, ListPlus, Trash2, DoorOpen, UserRound } from "lucide-react";
 import { useModal } from "@/app/hooks/user-modal-store";
-
 
 interface ServerHeaderProps {
     server: ServerWithMembersWithProfiles;
@@ -32,7 +31,7 @@ const ServerChannelHeader = ({server, role}: ServerHeaderProps) => {
                     </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className='w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]'>
-                    {isModerator || isAdmin &&
+                    {(isModerator || isAdmin) &&
                     (<DropdownMenuItem onClick={() => onOpen('invite', { server })}className='text-indigo-300 focus:text-indigo-600 cursor-pointer'>
                         Invite People
                     <UserPlus className='h-5 w-5 ml-auto' />
@@ -44,7 +43,13 @@ const ServerChannelHeader = ({server, role}: ServerHeaderProps) => {
                         <Wrench className='h-5 w-5 ml-auto' />
                     </DropdownMenuItem>)
                     }
-                    {isModerator || isAdmin &&
+                    {isAdmin &&
+                    (<DropdownMenuItem onClick={() => onOpen('manageMembers', { server })}className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
+                        Manage Members
+                        <UserRound className='h-5 w-5 ml-auto' />
+                    </DropdownMenuItem>)
+                    }
+                    {(isModerator || isAdmin) &&
                     (<DropdownMenuItem className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
                         Create Channel
                         <ListPlus className='h-5 w-5 ml-auto' />
