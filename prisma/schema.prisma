@@ -18,6 +18,7 @@ model Profile {
   id String @id @default(uuid())
   userId String @unique
   name String
+  userName String
   imageUrl String @db.Text
   email String @db.Text
 
@@ -33,7 +34,7 @@ model Server {
   id String @id @default(uuid())
   name String
   imageUrl String @db.Text
-  inviteCode String @db.Text
+  inviteCode String @unique
 
 
 
@@ -95,4 +96,3 @@ model Channel {
   @@index([serverId])
   @@index([profileId])
 }
-
