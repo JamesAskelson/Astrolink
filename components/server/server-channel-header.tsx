@@ -4,8 +4,6 @@ import { MemberRole } from "@prisma/client";
 import { DropdownMenu,
     DropdownMenuContent,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger, } from "../ui/dropdown-menu";
 import { ChevronDown, UserPlus, Wrench, ListPlus, Trash2, DoorOpen, UserRound } from "lucide-react";
 import { useModal } from "@/app/hooks/user-modal-store";
@@ -38,19 +36,19 @@ const ServerChannelHeader = ({server, role}: ServerHeaderProps) => {
                     </DropdownMenuItem>)
                     }
                     {isAdmin &&
-                    (<DropdownMenuItem onClick={() => onOpen('serverSettings', { server })}className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
+                    (<DropdownMenuItem onClick={() => onOpen('serverSettings', { server })} className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
                         Server Settings
                         <Wrench className='h-5 w-5 ml-auto' />
                     </DropdownMenuItem>)
                     }
                     {isAdmin &&
-                    (<DropdownMenuItem onClick={() => onOpen('manageMembers', { server })}className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
+                    (<DropdownMenuItem onClick={() => onOpen('manageMembers', { server })} className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
                         Manage Members
                         <UserRound className='h-5 w-5 ml-auto' />
                     </DropdownMenuItem>)
                     }
                     {(isModerator || isAdmin) &&
-                    (<DropdownMenuItem className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
+                    (<DropdownMenuItem onClick={() => onOpen('createChannel', { server })} className='text-gray-400 focus:text-gray-600 dr:focus:text-gray-800 cursor-pointer'>
                         Create Channel
                         <ListPlus className='h-5 w-5 ml-auto' />
                     </DropdownMenuItem>)
