@@ -27,7 +27,6 @@ export const NavigationSideBar = async () => {
         }
     })
 
-
     return (
         <div className="bg-zinc-300 dark:bg-zinc-700">
             <div className="flex w-full h-[72px]">
@@ -47,7 +46,8 @@ export const NavigationSideBar = async () => {
                 <ScrollArea className='flex-1 w-full space-y-4'>
                     <div className="space-y-4">
                         {servers.map((server) => (
-                            <NavigationItem id={server.id} name={server.name} imageUrl={server.imageUrl}/>
+                            server === null ? null
+                            : <NavigationItem id={server.id} name={server.name} imageUrl={server.imageUrl}/>
                         ))}
                     </div>
 
