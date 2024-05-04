@@ -53,18 +53,19 @@ const ServerChannelHeader = ({server, role}: ServerHeaderProps) => {
                         <ListPlus className='h-5 w-5 ml-auto' />
                     </DropdownMenuItem>)
                     }
-                    {isAdmin &&
-                    (<DropdownMenuItem className='text-red-500 focus:text-red-600 cursor-pointer'>
-                        Delete Server
-                        <Trash2 className='h-5 w-5 ml-auto' />
-                    </DropdownMenuItem>)
-                    }
                     {!isAdmin &&
-                    (<DropdownMenuItem className='text-red-500 focus:text-red-600 cursor-pointer'>
+                    (<DropdownMenuItem onClick={() => onOpen('leaveServer', { server })} className='text-red-500 focus:text-red-600 cursor-pointer'>
                         Leave Server
                         <DoorOpen className='h-5 w-5 ml-auto' />
                     </DropdownMenuItem>)
                     }
+                    {isAdmin &&
+                    (<DropdownMenuItem onClick={() => onOpen('deleteServer', { server })} className='text-red-500 focus:text-red-600 cursor-pointer'>
+                        Delete Server
+                        <Trash2 className='h-5 w-5 ml-auto' />
+                    </DropdownMenuItem>)
+                    }
+
                 </DropdownMenuContent>
             </DropdownMenu>
         </div>

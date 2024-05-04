@@ -33,10 +33,10 @@ const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => 
         }
     })
 
-    if(!server){
+    if(!server || server == null){
         return redirect('/')
     }
-    console.log(server)
+
     const textChannels = server?.channels.filter((channel) => channel.type === ChannelType.TEXT)
     const voiceChannels = server?.channels.filter((channel) => channel.type === ChannelType.AUDIO)
     const videoChannels = server?.channels.filter((channel) => channel.type === ChannelType.VIDEO)

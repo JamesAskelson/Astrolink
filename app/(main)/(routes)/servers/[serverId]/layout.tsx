@@ -3,14 +3,14 @@ import ServerMembersSidebar from "@/components/server/server-members-sidebar";
 import { currentProfile } from "@/lib/current-profle";
 import { db } from "@/lib/db";
 import { redirectToSignIn } from "@clerk/nextjs";
+import { Router } from "lucide-react";
 import { redirect } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 
 const ServerIdLayout  = async ({children, params} : {
     children: React.ReactNode;
     params: {serverId: string};
 }) => {
-    
     const profile = await currentProfile()
 
     if(!profile) {
@@ -28,7 +28,7 @@ const ServerIdLayout  = async ({children, params} : {
         }
     })
 
-    if(!server){
+    if(!server || server == null){
         return redirect('/')
     }
 
