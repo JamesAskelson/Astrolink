@@ -21,7 +21,6 @@ const ServerSearch = ({data}: ServerSearchProps) => {
     const [open, setOpen] = useState(false)
     const router = useRouter()
     const params = useParams()
-    console.log(params)
 
     useEffect(() => {
         const down = (e: KeyboardEvent) => {
@@ -38,7 +37,7 @@ const ServerSearch = ({data}: ServerSearchProps) => {
             setOpen(false)
 
             if(type === 'member'){
-                return router.push(`/servers/${params?.serverId}/conversations`)
+                return router.push(`/servers/${params?.serverId}/conversations${id}`)
             }
 
             if(type === 'channel'){
@@ -57,6 +56,7 @@ const ServerSearch = ({data}: ServerSearchProps) => {
                     <span className="text-xs">⌘</span>K
                 </kbd>
             </button>
+            <Command>
                 <CommandDialog open={open} onOpenChange={setOpen}>
                     <CommandInput placeholder="Search for channels and members" />
                     <CommandList>
@@ -81,6 +81,7 @@ const ServerSearch = ({data}: ServerSearchProps) => {
                         })}
                     </CommandList>
                 </CommandDialog>
+            </Command>
         </>
      );
 }
