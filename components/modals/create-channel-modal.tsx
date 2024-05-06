@@ -35,6 +35,7 @@ import {
 import { useModal } from '@/app/hooks/user-modal-store';
 import { ChannelType } from '@prisma/client';
 import { ServerWithMembersWithProfiles } from "@/type";
+import { useEffect } from 'react';
 
 /************************************************/
 // error checking schema
@@ -55,21 +56,27 @@ const formSchema = z.object({
 export const CreateChannelModal = () => {
     const { type, isOpen, onClose, data } = useModal();
     const { server } = data as { server: ServerWithMembersWithProfiles };
+    const { channelType } = data;
     const router = useRouter()
 
 
     const isModalOpen = isOpen && type === "createChannel";
 
-
-
-
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: '',
-            type: ChannelType.TEXT,
+            type: channelType || ChannelType.TEXT,
         }
     })
+
+    useEffect(() => {
+        if(channelType) {
+            form.setValue('type', channelType)
+        } else {
+            form.setValue('type', ChannelType.TEXT)
+        }
+    }, [channelType, form])
 
     const isLoading = form.formState.isSubmitting;
 
