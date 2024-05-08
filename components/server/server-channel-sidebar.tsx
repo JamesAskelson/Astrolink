@@ -56,9 +56,8 @@ const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => 
     const textChannels = server?.channels.filter((channel) => channel.type === ChannelType.TEXT)
     const voiceChannels = server?.channels.filter((channel) => channel.type === ChannelType.AUDIO)
     const videoChannels = server?.channels.filter((channel) => channel.type === ChannelType.VIDEO)
-
     const members = server?.members.filter((member) => member.profileId !== profile.id)
-
+    console.log('textChannels', textChannels)
     const role = server.members.find((member) => member.profileId === profile.id)?.role
 
     return (
@@ -120,6 +119,7 @@ const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => 
                         {textChannels.map((channel) => (
                             <ServerChannel
                             key={channel.id}
+                            id={channel.id}
                             channel={channel}
                             role={role}
                             server={server}
@@ -139,6 +139,7 @@ const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => 
                         {voiceChannels.map((channel) => (
                             <ServerChannel
                             key={channel.id}
+                            id={channel.id}
                             channel={channel}
                             role={role}
                             server={server}
@@ -158,6 +159,7 @@ const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => 
                         {videoChannels.map((channel) => (
                             <ServerChannel
                             key={channel.id}
+                            id={channel.id}
                             channel={channel}
                             role={role}
                             server={server}

@@ -51,7 +51,6 @@ const ServerMembersSidebar = async ({ serverId }: ServerMembersSidebarProps) => 
     }
 
     const members = server?.members
-    console.log(members)
     const role = server.members.find((member) => member.profileId === profile.id)?.role
 
 
