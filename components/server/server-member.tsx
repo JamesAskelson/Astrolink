@@ -35,7 +35,6 @@ const ServerMember = ({ member, server, role }: ServerChannelProps) => {
             return router.push(`/servers/${params?.serverId}/channels/${id}`)
         }
   }
-    console.log(member)
     return (
                 <button className="ml-8 mb-4 flex items-center gap-x-2">
                     <UserAvatar src={member?.profile?.imageUrl}/>

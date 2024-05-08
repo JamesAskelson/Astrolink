@@ -45,7 +45,6 @@ export async function POST(res: NextRequest, { params }: { params: { serverId: s
                 }
             }
         })
-        console.log(server)
         return NextResponse.json(server)
 
     } catch (error){

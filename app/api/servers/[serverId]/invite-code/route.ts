@@ -6,7 +6,6 @@ import { db } from '@/lib/db';
 
 export async function PATCH(req: NextRequest, { params }: { params: { serverId: string}}){
     try {
-        console.log('im here')
         const profile = await currentProfile()
 
         if(!profile){
@@ -28,7 +27,7 @@ export async function PATCH(req: NextRequest, { params }: { params: { serverId: 
         });
 
         return NextResponse.json(server)
-        
+
     } catch (error) {
         console.log('[SERVERS_POST]', error)
         return new NextResponse('Interal Error', {status: 500 })
