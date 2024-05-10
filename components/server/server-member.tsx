@@ -14,8 +14,8 @@ interface ServerChannelProps {
 
 const roleIconMap = {
     [MemberRole.GUEST]: null,
-    [MemberRole.MODERATOR]: <ShieldAlert />,
-    [MemberRole.ADMIN]: <ShieldX />
+    [MemberRole.MODERATOR]: <ShieldX />,
+    [MemberRole.ADMIN]: <ShieldAlert />
 }
 
 
