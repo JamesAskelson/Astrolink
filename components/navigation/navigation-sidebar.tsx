@@ -28,7 +28,7 @@ export const NavigationSideBar = async () => {
     })
 
     return (
-        <div className="bg-zinc-300 dark:bg-zinc-700">
+        <div className="bg-zinc-300 dark:bg-zinc-700 h-full">
             <div className="flex w-full h-[72px]">
                 <ActionTooltip label='Direct Messages' side='right' align='center'>
                     <button className='group flex items-center '>
@@ -60,8 +60,8 @@ export const NavigationSideBar = async () => {
 
 
 
-            <div className='left-1 absolute bottom-0 pb-3 mt-auto flex items-center flex-col gap-y-4 bg-zinc-300 dark:bg-zinc-700'>
-            <Separator className=" h-[2px] bg-zinc-200 dark:bg-zinc-500 w-16" />
+            <div className='w-[72px] absolute bottom-0 pb-3 mt-auto flex items-center flex-col gap-y-4 bg-zinc-300 dark:bg-zinc-700'>
+            <Separator className=" h-[2px] bg-zinc-200 dark:bg-zinc-500 w-[72px]" />
                 <ModeToggle />
                 <UserButton
                     afterSignOutUrl='/'
