@@ -6,6 +6,8 @@ import { Delete, Edit, Hash, Lock, Mic, ShieldAlert, ShieldX, Video } from "luci
 import { useParams, useRouter } from "next/navigation";
 import { ActionTooltip } from "../ui/action-tooltip";
 import UserAvatar from "../profile/user-profile";
+import { DropdownMenu, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuContent, DropdownMenuItem } from "../ui/dropdown-menu";
 interface ServerChannelProps {
     member: Member & { profile: Profile };
     server: Server;
@@ -25,25 +27,31 @@ const ServerMember = ({ member, server, role }: ServerChannelProps) => {
 
     const Icon = roleIconMap[member.role]
 
-    const onClick = ({id, type}: {id: string, type: 'channel' | 'member'}) => {
+    const onClick = () => {
 
-        if(type === 'member'){
-            return router.push(`/servers/${params?.serverId}/conversations${id}`)
-        }
-
-        if(type === 'channel'){
-            return router.push(`/servers/${params?.serverId}/channels/${id}`)
-        }
-  }
+         return router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+    }
     return (
-                <button className="ml-8 mb-4 flex items-center gap-x-2">
-                    <UserAvatar src={member?.profile?.imageUrl}/>
-                    <div className="flex items-center gap-2 text-slate-400">
-                        {member?.profile?.userName}
-                        {Icon}
+            <DropdownMenu>
+                <DropdownMenuTrigger className="focus:outline-none" asChild>
+                    <div className="ml-8 mb-4 flex items-center gap-x-2 hover:cursor-pointer">
+                        <UserAvatar src={member?.profile?.imageUrl}/>
+                        <div className="flex items-center gap-2 text-slate-400">
+                            {member?.profile?.userName}
+                            {Icon}
+                        </div>
                     </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuItem>
+                        <div onClick={() => onClick()} className="hover:cursor-pointer">
+                            Message
+                        </div>
+                    </DropdownMenuItem>
 
-                </button>
+                </DropdownMenuContent>
+            </DropdownMenu>
+
      );
 }
 
