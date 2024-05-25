@@ -12,6 +12,7 @@ interface ServerChannelProps {
     member: Member & { profile: Profile };
     server: Server;
     role?: MemberRole;
+    profId: string | undefined;
 }
 
 const roleIconMap = {
@@ -21,15 +22,18 @@ const roleIconMap = {
 }
 
 
-const ServerMember = ({ member, server, role }: ServerChannelProps) => {
+const ServerMember = ({ member, server, role, profId }: ServerChannelProps) => {
     const params = useParams();
     const router = useRouter();
-
+    const isMemberCurrent = profId === member.id ? true : false;
     const Icon = roleIconMap[member.role]
 
     const onClick = () => {
 
-         return router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+        if(profId !== member.id){
+            return router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+        }
+
     }
     return (
             <DropdownMenu>
@@ -42,6 +46,7 @@ const ServerMember = ({ member, server, role }: ServerChannelProps) => {
                         </div>
                     </div>
                 </DropdownMenuTrigger>
+                {!isMemberCurrent ?
                 <DropdownMenuContent>
                     <DropdownMenuItem>
                         <div onClick={() => onClick()} className="hover:cursor-pointer">
@@ -49,10 +54,10 @@ const ServerMember = ({ member, server, role }: ServerChannelProps) => {
                         </div>
                     </DropdownMenuItem>
 
-                </DropdownMenuContent>
+                </DropdownMenuContent> : null}
             </DropdownMenu>
 
-     );
+     )
 }
 
 export default ServerMember;
