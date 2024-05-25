@@ -10,6 +10,7 @@ import ServerMember from "./server-member";
 import { ActionTooltip } from "../ui/action-tooltip";
 import ServerSectionMembers from "./server-section-members";
 import { Separator } from "../ui/separator";
+import { ManageMembersModal } from "../modals/manager-members-modal";
 
 interface ServerMembersSidebarProps {
     serverId: string;
@@ -51,6 +52,7 @@ const ServerMembersSidebar = async ({ serverId }: ServerMembersSidebarProps) => 
     }
 
     const members = server?.members
+    const currId = server?.members?.find((member) => member.profileId === profile.id)
     const role = server.members.find((member) => member.profileId === profile.id)?.role
 
 
@@ -71,6 +73,7 @@ const ServerMembersSidebar = async ({ serverId }: ServerMembersSidebarProps) => 
                             member={member}
                             role={role}
                             server={server}
+                            profId={currId?.id}
                             />
                         ))}
                     </div>
