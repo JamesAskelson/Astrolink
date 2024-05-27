@@ -31,7 +31,7 @@ const ServerMember = ({ member, server, role, profId }: ServerChannelProps) => {
     const onClick = () => {
 
         if(profId !== member.id){
-            return router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+            return router.push(`/conversations/${member.profile.id}`)
         }
 
     }

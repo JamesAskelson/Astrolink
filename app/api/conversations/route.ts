@@ -1,59 +1,44 @@
 import { db } from '@/lib/db';
 
-export const getOrCreateConversation = async (memberOneId: string, memberTwoId: string) => {
-    let conversation = await findConversation(memberOneId, memberTwoId) || await findConversation(memberTwoId, memberOneId)
+export const getOrCreateConversation = async (profileOneId: string, profileTwoId: string) => {
+    let conversation = await findConversation(profileOneId, profileTwoId) || await findConversation(profileTwoId, profileOneId)
 
     if(!conversation){
-        conversation = await createConversation(memberOneId, memberTwoId)
+        conversation = await createConversation(profileOneId, profileTwoId)
     }
 
     return conversation;
 }
 
-const findConversation = async (memberOneId: string, memberTwoId: string) => {
+const findConversation = async (profileOneId: string, profileTwoId: string) => {
     return (
         await db.conversation.findFirst({
             where: {
                 AND: [
-                    {memberOneId: memberOneId},
-                    {memberTwoId: memberTwoId}
+                    {profileOneId: profileOneId},
+                    {profileTwoId: profileTwoId}
                 ]
             },
             include: {
-                memberOne: {
-                    include: {
-                        profile: true,
-                    }
-                },
-                memberTwo: {
-                    include: {
-                        profile: true,
-                    }
-                }
+                profileOne: true,
+                profileTwo: true
+
             }
         })
     )
 }
 
-const createConversation = async (memberOneId: string, memberTwoId: string) => {
+const createConversation = async (profileOneId: string, profileTwoId: string) => {
     try {
         return (
             await db.conversation.create({
                 data: {
-                    memberOneId,
-                    memberTwoId
+                    profileOneId,
+                    profileTwoId
                 },
                 include: {
-                    memberOne: {
-                        include: {
-                            profile: true,
-                        }
-                    },
-                    memberTwo: {
-                        include: {
-                            profile: true,
-                        }
-                    }
+                    profileOne: true,
+                    profileTwo: true
                 }
             })
         )
