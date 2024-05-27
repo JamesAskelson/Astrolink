@@ -99,6 +99,7 @@ const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => 
                                 type: 'member',
                                 data: members?.map(member => ({
                                     id: member.id,
+                                    profId: member?.profile?.id,
                                     name: member.profile.name,
                                     icon: roleIconMap[member.role],
                                 }))

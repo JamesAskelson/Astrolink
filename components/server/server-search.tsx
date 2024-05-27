@@ -13,6 +13,7 @@ interface ServerSearchProps {
             icon: React.ReactNode;
             name: string;
             id: string;
+            profId?: string | undefined;
         }[] | undefined
     }[]
 }
@@ -33,11 +34,10 @@ const ServerSearch = ({data}: ServerSearchProps) => {
         return () => document.removeEventListener("keydown", down)
       }, [])
 
-      const onClick = ({id, type}: {id: string, type: 'channel' | 'member'}) => {
+      const onClick = ({id, type, profId}: {id: string, type: 'channel' | 'member', profId: string | undefined}) => {
             setOpen(false)
-
             if(type === 'member'){
-                return router.push(`/servers/${params?.serverId}/conversations${id}`)
+                return router.push(`/conversations/${profId}`)
             }
 
             if(type === 'channel'){
@@ -68,9 +68,9 @@ const ServerSearch = ({data}: ServerSearchProps) => {
 
                             return (
                                 <CommandGroup key={label} heading={label}>
-                                    {data?.map(({id, icon, name}) => {
+                                    {data?.map(({id, icon, name, profId}) => {
                                         return (
-                                            <CommandItem key={id} onSelect={() => onClick({ id, type})} className="gap-2 cursor-pointer dark:hover:bg-slate-400">
+                                            <CommandItem key={id} onSelect={() => onClick({ id, type, profId})} className="gap-2 cursor-pointer dark:hover:bg-slate-400">
                                                 {icon}
                                                 <span>{name}</span>
                                             </CommandItem>
