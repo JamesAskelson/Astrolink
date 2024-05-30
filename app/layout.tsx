@@ -7,6 +7,7 @@ import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
 import { extractRouterConfig } from "uploadthing/server";
 import { ourFileRouter } from "./api/uploadthing/core";
 import { ModalProvider } from "@/components/providers/modal-provider";
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 const inter = Roboto_Slab({ subsets: ["latin"] });
 
@@ -33,8 +34,10 @@ export default function RootLayout({
               enableSystem={false}
               disableTransitionOnChange
               >
-              <ModalProvider />
-                {children}
+              <SocketProvider>
+                <ModalProvider />
+                  {children}
+              </SocketProvider>
               </ThemeProvider>
             </body>
         </html>
