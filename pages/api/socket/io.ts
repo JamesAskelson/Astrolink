@@ -1,6 +1,6 @@
 import { Server as MoonServer } from 'http';
 import { NextApiRequest } from 'next';
-import { Server as ServerIO } from 'socket.io';
+import { Server } from 'socket.io';
 
 import { NextApiResponseServerIo } from '@/type';
 
@@ -14,7 +14,7 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo)=> {
     if(!res.socket.server.io) {
         const path = "/api/socket/io";
         const httpServer: MoonServer = res.socket.server as any;
-        const io = new ServerIO(httpServer, {
+        const io = new Server(httpServer, {
             path: path,
             addTrailingSlash: false,
         })
