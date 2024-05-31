@@ -44,8 +44,14 @@ const ConversationIdPage = async ({params}: ConversationPageProps) => {
     const otherMember = profileOne.id === profile.id ? profileTwo : profileOne
 
     return (
-        <div className="h-full">
+        <div className="h-full flex flex-col">
             <ConversationsHeader name={otherMember.name} imageUrl={otherMember.imageUrl} />
+            <div className="flex-1">
+                Future Messages
+            </div>
+            <div>
+                input
+            </div>
         </div>
     )
 }

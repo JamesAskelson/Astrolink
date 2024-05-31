@@ -46,11 +46,11 @@ const ConversationIdLayout  = async ({children, params} : {
     }
 
     return (
-        <div className='h-full'>
+        <div className='h-full flex'>
             <div className='hidden md:flex h-full w-60 z-20 fixed inset-y-0'>
                 <ConversationsSidebar profileInfo={profileInfo}/>
             </div>
-            <main className='md:pl-60 md:pr-80 w-full h-full fixed top-0'>
+            <main className='md:pl-60 w-full h-full flex-grow'>
                 {children}
             </main>
         </div>
