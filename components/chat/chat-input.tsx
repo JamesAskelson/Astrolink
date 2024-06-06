@@ -1,5 +1,4 @@
 'use client'
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -15,6 +14,7 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input";
 import { Plus, Smile } from "lucide-react";
+import qs from 'query-string'
 
 interface ChatInputProps {
     apiUrl: string;
@@ -36,11 +36,32 @@ export const ChatInput = ({apiUrl, name, type, query}: ChatInputProps) => {
             content: ''
         }
     })
-
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         console.log(values)
+        try {
+            const url = qs.stringifyUrl({
+                url: apiUrl,
+                query: query
+            })
+
+            const res = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values),
+            })
+
+            if(res.ok){
+                const resData = await res.json()
+                form.reset()
+                router.refresh()
+            }
+        } catch(error) {
+            console.log(error)
+        }
     }
 
     return (
@@ -60,15 +81,13 @@ export const ChatInput = ({apiUrl, name, type, query}: ChatInputProps) => {
                                     dark:hover:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center">
                                         <Plus />
                                     </button>
-
                                     <Input
                                     disabled={isLoading}
                                     placeholder={`Message #${name}`}
                                     className='px-14 py-6 bg-slate-800 border-0 focus-visible:ring-0 focus-visible:ring-offset-0'
                                     {...field}
-                                    >
-                                    </Input>
-                                    <div                                     className="absolute top-7 right-8">
+                                    />
+                                    <div className="absolute top-7 right-8">
                                         <Smile />
                                     </div>
                                 </div>
