@@ -15,6 +15,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Plus, Smile } from "lucide-react";
 import qs from 'query-string'
+import { useModal } from "@/app/hooks/user-modal-store";
+import { useState } from "react";
 
 interface ChatInputProps {
     apiUrl: string;
@@ -25,17 +27,22 @@ interface ChatInputProps {
 
 const formSchema = z.object({
     content: z.string().min(1),
+    fileUrl: z.string().optional()
 })
 
 export const ChatInput = ({apiUrl, name, type, query}: ChatInputProps) => {
     const router = useRouter()
+    const { onOpen } = useModal()
+    const [urlFile, setUrlFile] = useState('')
 
     const form = useForm({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            content: ''
+            content: '',
+            fileUrl: ''
         }
     })
+
     const isLoading = form.formState.isSubmitting;
 
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -64,6 +71,11 @@ export const ChatInput = ({apiUrl, name, type, query}: ChatInputProps) => {
         }
     }
 
+    const handleImageUpload = (url: any) => {
+        form.setValue('fileUrl', url); // Update the form with the uploaded image URL
+        setUrlFile(url)
+    };
+
     return (
         <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -74,13 +86,21 @@ export const ChatInput = ({apiUrl, name, type, query}: ChatInputProps) => {
                         <FormItem>
                             <FormControl>
                                 <div className="relative p-4 pb-6 pr-6">
+                                    {urlFile && urlFile.endsWith('.jpg') || urlFile.endsWith('.png') || urlFile.endsWith('.jpeg') || urlFile.endsWith('.gif')  ? (
+                                        <img src={urlFile} alt="Uploaded file" className="absolute bottom-20 max-w-20 max-h-20 rounded" />
+                                        ) : (
+                                        <a href={urlFile} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline absolute bottom-20">
+                                            {urlFile}
+                                        </a>
+                                    )}
                                     <button
                                     type='button'
-                                    onClick={() => console.log('click')}
+                                    onClick={() => onOpen('messageFile', { onImageUpload: handleImageUpload })}
                                     className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600
                                     dark:hover:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center">
                                         <Plus />
                                     </button>
+
                                     <Input
                                     disabled={isLoading}
                                     placeholder={`Message #${name}`}

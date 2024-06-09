@@ -12,9 +12,11 @@ interface FileUploadProps {
 }
 
 const FileUpload = ({onChange, value, endpoint}: FileUploadProps) => {
+
+
     const fileType = value?.split('.').pop()
 
-    if(value && fileType !== 'pdf'){
+    if(value && fileType !== 'pdf' && endpoint == 'serverImage'){
         return (
             <div className="relative h-32 w-32 mx-auto">
                 <Image
@@ -35,7 +37,7 @@ const FileUpload = ({onChange, value, endpoint}: FileUploadProps) => {
 
     return (
         <UploadDropzone
-            className="p-0"
+            className="p-0 gap-4 cursor-pointer"
             endpoint={endpoint}
             onClientUploadComplete={(res) => {
                 onChange(res?.[0].url)

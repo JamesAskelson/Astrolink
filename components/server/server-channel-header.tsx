@@ -15,7 +15,6 @@ interface ServerHeaderProps {
 }
 
 const ServerChannelHeader = ({server, role}: ServerHeaderProps) => {
-    console.log('serversidebar', server)
     const { onOpen } = useModal()
 
     const isAdmin = role === MemberRole.ADMIN
