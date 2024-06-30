@@ -63,7 +63,7 @@ const ServerChannelSidebar = async ({ serverId }: ServerChannelSidebarProps) => 
     return (
         <div className="flex flex-col h-full bg-zinc-400 w-full dark:bg-zinc-800">
             <ServerChannelHeader server={server} role={role}/>
-            <ScrollArea className="flex-1 px-3">
+            <ScrollArea className="flex-1 px-3 py-1">
                 <div className="mt-2">
                     <ServerSearch data={
                         [
