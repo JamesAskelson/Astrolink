@@ -1,0 +1,4 @@
+to start up dev:
+
+npm run dev to start the site
+npx prisma studio to look at the database

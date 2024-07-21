@@ -5,6 +5,7 @@ import ChatIntro from "./chat-intro";
 import { useChatQuery } from "@/app/hooks/use-chat-query";
 import { LoaderIcon, ServerCrash } from "lucide-react";
 import { Fragment } from "react";
+import Image from "next/image";
 
 type MessageWithMememberWithProfile = Message & {
     member: Member & {
@@ -73,6 +74,10 @@ const ChatMessages = ({name, member, chatId, apiUrl, socketUrl, socketQuery, par
                         {group.items.map((message: MessageWithMememberWithProfile) => (
                             <div key={message.id}>
                                 {message.text}
+                                {message.fileUrl ?
+                                    <Image src={message.fileUrl} width={500} height={500} alt=''></Image> : null
+                                }
+
                             </div>
                         ))}
                     </Fragment>

@@ -4,6 +4,7 @@ import MobileServerMenu from "../menu/mobile-server-menu";
 import MobileMembersMenu from "../menu/mobile-members-menu";
 import UserAvatar from "../profile/user-profile";
 import { Avatar, AvatarImage } from "../ui/avatar";
+import { SocketIndicator } from "../conversations/socket-indicator";
 
 interface ChannelHeaderProps {
     serverId: string;
@@ -29,6 +30,7 @@ const ChannelHeader = ({serverId, name, imageUrl}: ChannelHeaderProps) => {
                 </p>
             </div>
             <div className="pr-4">
+                <SocketIndicator />
                 <MobileMembersMenu serverId={serverId} />
             </div>
         </div>
