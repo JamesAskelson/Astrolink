@@ -6,6 +6,8 @@ import { useChatQuery } from "@/app/hooks/use-chat-query";
 import { LoaderIcon, ServerCrash } from "lucide-react";
 import { Fragment } from "react";
 import Image from "next/image";
+import { format } from 'date-fns'
+import ChatItem from "./chat-item";
 
 type MessageWithMememberWithProfile = Message & {
     member: Member & {
@@ -72,13 +74,19 @@ const ChatMessages = ({name, member, chatId, apiUrl, socketUrl, socketQuery, par
                 {data?.pages?.map((group, i) => (
                     <Fragment key={i}>
                         {group.items.map((message: MessageWithMememberWithProfile) => (
-                            <div key={message.id}>
-                                {message.text}
-                                {message.fileUrl ?
-                                    <Image src={message.fileUrl} width={500} height={500} alt=''></Image> : null
-                                }
-
-                            </div>
+                            <ChatItem
+                            key={message.id}
+                            id={message.id}
+                            member={message.member}
+                            currentMember={member}
+                            text={message.text}
+                            fileUrl={message.fileUrl}
+                            deleted={message.deleted}
+                            isUpdated={message.updatedAt !== message.createAt}
+                            timestamp={format(new Date(message.createAt), 'd MMM yyyy, HH:mm')}
+                            socketUrl={socketUrl}
+                            socketQuery={socketQuery}
+                            />
                         ))}
                     </Fragment>
                 ))}
