@@ -1,6 +1,6 @@
 import { Member, MemberRole, Profile } from "@prisma/client";
 import UserAvatar from "../profile/user-profile";
-import { ShieldAlert, ShieldX } from "lucide-react";
+import { FileIcon, ShieldAlert, ShieldX } from "lucide-react";
 import { ActionTooltip } from "../ui/action-tooltip";
 import { isAppPageRouteDefinition } from "next/dist/server/future/route-definitions/app-page-route-definition";
 import Image from "next/image";
@@ -70,8 +70,22 @@ const ChatItem = ({id, text, member, timestamp, fileUrl, deleted, currentMember,
                                 src={fileUrl}
                                 alt={fileUrl}
                                 fill
+                                className='object-cover'
                             />
                         </a>
+                        }
+                        {isPDF &&
+                            <div>
+
+                                <FileIcon className='h-10 w-10 fill-indigo-200 stroke-indigo-400' />
+                                <a
+                                    href={fileUrl}
+                                    target='_blank'
+                                    className='ml-2 text-sm text-indigo-500 dark:text-indigo-400 hover:underline'
+                                >
+
+                                </a>
+                            </div>
                         }
                     </div>
                 </div>
