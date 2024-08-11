@@ -46,7 +46,7 @@ const ChatItem = ({id, text, member, timestamp, fileUrl, deleted, currentMember,
     const isImage = fileUrl && !isPDF;
 
     return (
-        <div className="flex py-2 gap-4">
+        <div className="flex p-2 gap-4 hover:bg-slate-700 rounded-sm group relative">
             <div className="cursor-pointer">
                 <UserAvatar src={member.profile.imageUrl} />
             </div>
@@ -62,16 +62,16 @@ const ChatItem = ({id, text, member, timestamp, fileUrl, deleted, currentMember,
                         {timestamp}
                     </div>
                     {canDelete && (
-                    <div className="group-hover:flex items-center gap-x-2 group-hover:bg-white dark:bg-zinc-800 border rounded-sm">
-                        {canEdit && (
-                            <ActionTooltip label='Edit'>
-                                <Edit
-                                onClick={() => setEditing(true)}
-                                className='cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition'/>
-                            </ActionTooltip>
-                        )}
-                    </div>
-                )}
+                        <div className="hidden absolute top-1 right-2 group-hover:flex ml-px gap-x-2 group-hover:bg-text-zinc-800 dark:bg-zinc-800 border rounded-sm">
+                            {canEdit && (
+                                <ActionTooltip label='Edit'>
+                                    <Edit
+                                    onClick={() => setEditing(true)}
+                                    className='cursor-pointer ml-auto w-5 h-5 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition'/>
+                                </ActionTooltip>
+                            )}
+                        </div>
+                    )}
                 </div>
                 <div className="flex flex-col">
                     {!fileUrl && !editing && (
@@ -86,6 +86,11 @@ const ChatItem = ({id, text, member, timestamp, fileUrl, deleted, currentMember,
                                 )}
                             </p>
                         )}
+                    {editing && (
+                        <div>
+                            (editting)
+                        </div>
+                    )}
                     <div>
                         {isImage &&
                         <a
