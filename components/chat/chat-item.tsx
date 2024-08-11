@@ -1,3 +1,5 @@
+'use client'
+
 import { Member, MemberRole, Profile } from "@prisma/client";
 import UserAvatar from "../profile/user-profile";
 import { Edit, FileIcon, ShieldAlert, ShieldX } from "lucide-react";
@@ -6,6 +8,22 @@ import { isAppPageRouteDefinition } from "next/dist/server/future/route-definiti
 import Image from "next/image";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+    Form,
+    FormControl,
+    FormDescription,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage,
+} from "@/components/ui/form"
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import qs from 'query-string'
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
 
 interface ChatItemProps {
     id: string;
@@ -29,21 +47,61 @@ const roleIconMap = {
     'ADMIN': <ShieldX className="h-4 w-4 text-red-800"/>
 }
 
+const formSchema = z.object({
+    content: z.string().min(1),
+    fileUrl: z.string().optional()
+})
+
 const ChatItem = ({id, text, member, timestamp, fileUrl, deleted, currentMember, isUpdated, socketQuery, socketUrl}: ChatItemProps) => {
     const [editing, setEditing] = useState(false);
     const [deleting, setDeleting] = useState(false)
-
+    const router = useRouter()
 
     const fileType = fileUrl?.split(".").pop()
-
 
     const isAdmin = currentMember.role == MemberRole.ADMIN;
     const isModerator = currentMember.role == MemberRole.MODERATOR;
     const isOwner = currentMember.id === member.id
+
     const canDelete = !deleted && (isAdmin || isModerator || isOwner)
     const canEdit = !deleted && isOwner
+
     const isPDF = fileType === 'pdf' && fileUrl
     const isImage = fileUrl && !isPDF;
+
+    const form = useForm({
+        resolver: zodResolver(formSchema),
+        defaultValues: {
+            content: text,
+            fileUrl: fileUrl
+        }
+    })
+
+    const onSubmit = async (values: z.infer<typeof formSchema>) => {
+        console.log(values)
+        try {
+            const url = qs.stringifyUrl({
+                url: socketUrl,
+                query: socketQuery
+            })
+
+            const res = await fetch(url, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(values),
+            })
+
+            if(res.ok){
+                const resData = await res.json()
+                form.reset()
+                router.refresh()
+            }
+        } catch(error) {
+            console.log(error)
+        }
+    }
 
     return (
         <div className="flex p-2 gap-4 hover:bg-slate-700 rounded-sm group relative">
@@ -87,9 +145,46 @@ const ChatItem = ({id, text, member, timestamp, fileUrl, deleted, currentMember,
                             </p>
                         )}
                     {editing && (
-                        <div>
-                            (editting)
-                        </div>
+                        <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)}>
+                    <FormField
+                    control={form.control}
+                    name='content'
+                    render={({field}) => (
+                        <FormItem>
+                            <FormControl>
+                                <div className="relative p-4 pb-6 pr-6">
+                                    {fileUrl && fileUrl.endsWith('.jpg') || fileUrl.endsWith('.png') || fileUrl.endsWith('.jpeg') || fileUrl.endsWith('.gif')  ? (
+                                        <img src={fileUrl} alt="Uploaded file" className="absolute bottom-20 max-w-20 max-h-20 rounded" />
+                                        ) : (
+                                        <a href={fileUrl} target="_blank" rel="noopener noreferrer" className="text-blue-500 underline absolute bottom-20">
+                                            {fileUrl}
+                                        </a>
+                                    )}
+                                    <button
+                                    type='button'
+                                    onClick={() => onOpen('messageFile', { onImageUpload: handleImageUpload })}
+                                    className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600
+                                    dark:hover:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center">
+                                        <Plus />
+                                    </button>
+
+                                    <Input
+                                    disabled={isLoading}
+                                    placeholder={`Message #${name}`}
+                                    className='px-14 py-6 bg-slate-800 border-0 focus-visible:ring-0 focus-visible:ring-offset-0'
+                                    {...field}
+                                    />
+                                    <div className="absolute top-7 right-8">
+                                        <EmojiPicker onChange={(emoji: string) => field.onChange(`${field.value} ${emoji}`)}/>
+                                    </div>
+                                </div>
+                            </FormControl>
+                        </FormItem>
+                    )}
+                    />
+                </form>
+        </Form>
                     )}
                     <div>
                         {isImage &&
